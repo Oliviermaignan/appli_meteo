@@ -33,6 +33,8 @@ export const App = () => {
             setCityInput("");
         };
         getData();
+
+
     }, [triggerFetch]);
 
     const changeSystem = () =>
@@ -40,10 +42,9 @@ export const App = () => {
             ? setUnitSystem("imperial")
             : setUnitSystem("metric");
 
-
     return weatherData && !weatherData.error ? (
         <>
-            <div>{ }</div>
+            
             <MainCard
                 city={city.city}
                 country={city.country}
