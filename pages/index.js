@@ -4,7 +4,6 @@ import { ErrorScreen } from "../components/ErrorScreen";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { MainCard } from "../components/MainCard";
 import { MetricsBox } from "../components/MetricsBox"
-import { MetricsCard } from "../components/MetricsCard"
 import { UnitSwitch } from "../components/UnitSwitch"
 import { DateAndTime } from "../components/DateAndTime";
 import { ContentBox } from "../components/ContentBox";
@@ -13,7 +12,6 @@ import { Header } from "../components/Header";
 import { getWeatherDescription, showIconName } from "../services/helpers"
 
 import city from '../utils/city.json';
-import styles from "../styles/Home.module.css";
 
 export const App = () => {
     const [cityInput, setCityInput] = useState(city.city);
