@@ -8,7 +8,6 @@
 // }
 
 import city from '../../utils/city.json'
-console.log(city.city);
 
 
 export default async function handler(req, res) {

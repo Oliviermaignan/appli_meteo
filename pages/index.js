@@ -1,48 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 
-import { ErrorScreen } from "../components/ErrorScreen";
-import { LoadingScreen } from "../components/LoadingScreen";
-import { MainCard } from "../components/MainCard";
-import { MetricsBox } from "../components/MetricsBox"
-import { UnitSwitch } from "../components/UnitSwitch"
-import { DateAndTime } from "../components/DateAndTime";
-import { ContentBox } from "../components/ContentBox";
-import { Header } from "../components/Header";
+import { ErrorScreen } from '../components/ErrorScreen'
+import { LoadingScreen } from '../components/LoadingScreen'
+import { MainCard } from '../components/MainCard'
+import { MetricsBox } from '../components/MetricsBox'
+import { UnitSwitch } from '../components/UnitSwitch'
+import { DateAndTime } from '../components/DateAndTime'
+import { ContentBox } from '../components/ContentBox'
+import { Header } from '../components/Header'
 
-import { getWeatherDescription, showIconName } from "../services/helpers"
+import { getWeatherDescription, showIconName } from '../services/helpers'
 
-import city from '../utils/city.json';
+import city from '../utils/city.json'
 
 export const App = () => {
-    const [cityInput, setCityInput] = useState(city.city);
-    const [triggerFetch, setTriggerFetch] = useState(true);
-    const [weatherData, setWeatherData] = useState();
-    const [unitSystem, setUnitSystem] = useState("metric");
+    const [cityInput, setCityInput] = useState(city.city)
+    const [weatherData, setWeatherData] = useState()
+    const [unitSystem, setUnitSystem] = useState('metric')
 
     useEffect(() => {
         const getData = async () => {
-            const res = await fetch("api/data", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+            const res = await fetch('api/data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ cityInput }),
-            });
-            const data = await res.json();
-            setWeatherData({ ...data });
-            setCityInput("");
-        };
-        getData();
+            })
+            const data = await res.json()
+            setWeatherData({ ...data })
+        }
+        getData()
 
+        const intervalId = setInterval(getData, 900000)
+        return () => clearInterval(intervalId)
 
-    }, [triggerFetch]);
+    }, [cityInput])
 
     const changeSystem = () =>
-        unitSystem == "metric"
-            ? setUnitSystem("imperial")
-            : setUnitSystem("metric");
+        unitSystem == 'metric'
+            ? setUnitSystem('imperial')
+            : setUnitSystem('metric')
 
-    return weatherData && !weatherData.error ? (
+    if (!weatherData) {
+        return <LoadingScreen loadingMessage="Loading data..." />
+    }
+
+    if (weatherData && weatherData.error) {
+        return <ErrorScreen errorMessage={weatherData.reason || 'Failed to load data'} />
+    }
+
+    return (
         <>
-            
             <MainCard
                 city={city.city}
                 country={city.country}
@@ -53,18 +60,16 @@ export const App = () => {
             />
             <ContentBox>
                 <Header>
-                    <DateAndTime weatherData={weatherData} unitSystem={unitSystem} />
+                    <DateAndTime
+                        weatherData={weatherData}
+                        unitSystem={unitSystem}
+                    />
                 </Header>
                 <MetricsBox weatherData={weatherData} unitSystem={unitSystem} />
                 <UnitSwitch onClick={changeSystem} unitSystem={unitSystem} />
             </ContentBox>
-
         </>
-    ) : weatherData && !weatherData.error ? (
-        <div>weatherData.reason</div>
-    ) : (
-        <LoadingScreen loadingMessage="Loading data..." />
-    );
+    ) 
 }
 
-export default App;
+export default App
