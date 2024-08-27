@@ -1,47 +1,25 @@
-# Weather App
+# Présentation :
 
-Check the current weather on any city on the planet. Switch between metric and imperial units.
+Application de météo se rafraichissant toute les 15 minutes.
 
-![Alt img](https://images.ctfassets.net/zlsyc9paq6sa/3uBrJ07WSM40FpolgjInHY/7d886cb4187b52194bf9b63c183a1d3a/1627637330_x.gif)
-
-## Features
-
-1. User's ability to search cities
-
-2. Current local time and date
-
-3. Temperatures and humidity
-
-4. Wind speed and direction
-
-5. Sunrise and sunset times
-
-6. Metric vs Imperial system
-
-7. Error handling and loading info
+Ce projet a été effectué dans le cadre d'un exercice d'école.
+Le but était d'adapté une application météo existante en changeant la source des données. Le serveur contacté pour recevoir les données a donc changé, les end-points aussi.
 
 ## Installation
 
-1. `git clone https://github.com/madzadev/weather-app.git`
+### Cloner le dépôt :
 
-2. `cd weather-app`
+    git clone https://github.com/Oliviermaignan/appli_meteo.git
+    cd weather-dashboard
 
-3. `npm install`
+### Installer les dépendances :
 
-4. Log-in to [Openweathermap.com](https://openweathermap.org/)
+Assurez-vous d'avoir Node.js installé, puis exécutez :
 
-5. Create an API key
+    npm install
 
-6. `cp .env.example .env.local`
+### Lancer le serveur de développement :
 
-7. Paste API key for `OPENWEATHER_API_KEY`
+    npm run dev
 
-8. `npm run dev`
-
-## Contributions
-
-Any feature requests and pull requests are welcome!
-
-## License
-
-The project is under [MIT license](https://choosealicense.com/licenses/mit/).
+L'application sera accessible sur http://localhost:3000.
