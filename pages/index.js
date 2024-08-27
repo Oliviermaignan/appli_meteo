@@ -14,26 +14,33 @@ import { getWeatherDescription, showIconName } from '../services/helpers'
 import city from '../utils/city.json'
 
 export const App = () => {
-    const [cityInput, setCityInput] = useState(city.city)
     const [weatherData, setWeatherData] = useState()
     const [unitSystem, setUnitSystem] = useState('metric')
 
     useEffect(() => {
         const getData = async () => {
-            const res = await fetch('api/data', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cityInput }),
-            })
-            const data = await res.json()
-            setWeatherData({ ...data })
+            try{
+                const res = await fetch('api/data', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                })
+
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch weather data: ${res.statusText}`);
+                }
+
+                const data = await res.json()
+                setWeatherData({ ...data })
+            } catch (error){
+                console.error('Error fetching weather data:', error);
+            }
         }
         getData()
 
         const intervalId = setInterval(getData, 900000)
         return () => clearInterval(intervalId)
 
-    }, [cityInput])
+    }, [])
 
     const changeSystem = () =>
         unitSystem == 'metric'
